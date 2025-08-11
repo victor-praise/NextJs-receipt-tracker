@@ -30,7 +30,7 @@ function Header() {
 
             <SignedOut>
                 <SignInButton mode='modal'>
-                <Button variant="outline">Login</Button>
+                <Button variant="outline">Login Button</Button>
                 </SignInButton>
             </SignedOut>       
     </div>
