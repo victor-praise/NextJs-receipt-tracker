@@ -13,8 +13,24 @@ const SchematicWrapped = ({children}: {children: ReactNode}) => {
 
   useEffect(() => { 
     const userName = user?.username ?? user?.fullName ?? user?.emailAddresses[0]?.emailAddress ?? user?.id;
-    
-   },[]);
+console.log("user is ",user);
+
+    if(user?.id){
+      identify({
+        name:userName,
+        keys:{
+          id:user.id
+        },
+        company:{
+          keys:{
+            id:user.id
+          },
+          name:userName,  
+        }
+      });
+    }
+
+   },[user, identify]);
 
   return children;
 }
