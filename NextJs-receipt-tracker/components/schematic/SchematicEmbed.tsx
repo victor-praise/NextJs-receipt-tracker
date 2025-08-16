@@ -1,7 +1,11 @@
 "use client";
 
-import {SchematicEmbed as SchematicEmbedComponent} from "@schematichq/schematic-react";
+import {EmbedProvider, SchematicEmbed as SchematicEmbedComponent} from "@schematichq/schematic-components";
 
 function SchematicEmbed({accessToken,componentId}:{accessToken:string;componentId:string}) {
-    return <SchematicEmbedComponent componentId={componentId} accessToken={accessToken} />
+    return <EmbedProvider >
+     <SchematicEmbedComponent accessToken={accessToken} id={componentId} />
+    </EmbedProvider>
 }
+
+export default SchematicEmbed;

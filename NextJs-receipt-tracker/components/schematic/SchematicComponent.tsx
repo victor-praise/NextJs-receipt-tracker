@@ -1,7 +1,8 @@
  import { getTemporaryAccessToken } from '@/actions/getTemporaryAccessToken';
 import React from 'react'
+import SchematicEmbed from './SchematicEmbed';
  
- async function SchematicComponent({componentId}: {componentId: string}   ) {
+ async function SchematicComponent({componentId}: {componentId?: string}   ) {
 
     if(!componentId) {
         return null;
@@ -11,7 +12,7 @@ import React from 'react'
        throw new Error("Failed to get access token");
     }
    return (
-     <div>SchematicComponent</div>
+<SchematicEmbed accessToken={accessToken} componentId={componentId}/>
    )
  }
  
