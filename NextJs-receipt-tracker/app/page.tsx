@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@schematichq/schematic-components";
+import { Button } from '@/components/ui/button'
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
@@ -23,7 +23,7 @@ export default function Home() {
             </Button>
             </Link>
             <Link href="#features">
-            <Button variant="outline">Learn More</Button></Link>
+            <Button variant="outline">Learn More!!!!!</Button></Link>
           </div>
         </div>
       </div>
