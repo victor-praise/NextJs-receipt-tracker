@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
      <div>
-      <section>
+      <section className="py-20 md:py-28 bg-gradient-to-b from-blue-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="space-y-2">
@@ -27,6 +27,16 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <div className='mt-12 flex justify-center'>
+        <div className='relative w-full max-w-3xl rounded-lg border border-gray-200 bg-white overflow-hidden shadow-lg dark:border-gray-800 dark:bg-gray-950'>
+          <div className='p-6 md:p-8 relative'>
+            <p>PDF dropzone goes here....</p>
+        </div> 
+        </div> 
+        </div> 
+      </section>
+      <section>
+        
       </section>
      </div>
     </>
