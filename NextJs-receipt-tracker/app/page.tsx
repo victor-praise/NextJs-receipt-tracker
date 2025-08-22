@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from '@/components/ui/button'
-import { ArrowRight, BarChart, Search, Upload } from "lucide-react";
+import { ArrowRight, BarChart, Check, Search, Upload } from "lucide-react";
 import Link from "next/link";
 
 
@@ -81,6 +81,35 @@ export default function Home() {
               <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Get Started Today</h2>
               <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">Choose the plan tthat works for your needs.</p>
 
+            </div>
+          </div>
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 max-w-5xl mx-auto'>
+            <div className='flex flex-col items-center shadow-sm p-6 border border-gray-200 rounded-lg bg-white dark:border-gray-800 dark:bg-gray-950'>
+              <div className='space-y-2'>
+                <h3 className='text-2xl font-bold'>Free</h3>
+                <p className='text-gray-500 dark:text-gray-400'>Basic features for personal use</p>
+               
+                
+              </div>
+              <div className='mt-4'>
+                <p className='text-4xl font-bold'>$0</p>
+                <p className='text-gray-500 dark:text-gray-400'>/month</p>
+              </div>
+              <ul className='mt-6 space-y-2 flex-1'>
+                <li className='flex items-center'>
+                  <Check className="text-green-500 mr-2 h-5 w-5" />
+                  <span> 2 Scans per month</span>
+                </li>
+                <li className='flex items-center'>
+                  <Check className="text-green-500 mr-2 h-5 w-5" />
+                  <span> Basic data extraction</span>
+                </li>
+                <li className='flex items-center'>
+                  <Check className="text-green-500 mr-2 h-5 w-5" />
+                  <span> 7-day history</span>
+                </li>
+              </ul>
+              <div></div>
             </div>
           </div>
         </div>
