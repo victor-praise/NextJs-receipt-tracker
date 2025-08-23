@@ -106,7 +106,7 @@ export default function Home() {
                 </li>
                 <li className='flex items-center'>
                   <Check className="text-green-500 mr-2 h-5 w-5" />
-                  <span> 7-day history</span>
+                  <span> 7-day history!!!!</span>
                 </li>
               </ul>
               <div></div>
