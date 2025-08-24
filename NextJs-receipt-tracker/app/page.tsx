@@ -109,8 +109,89 @@ export default function Home() {
                   <span> 7-day history!!!!</span>
                 </li>
               </ul>
-              <div></div>
+              <div className='mt-6'>
+                <Link href="/manage-plan">
+                  <Button className='w-full' variant="outline">Sign Up free</Button>
+                </Link>
+              </div>
             </div>
+
+             <div className='flex flex-col items-center shadow-sm p-6 border border-gray-200 rounded-lg bg-white dark:border-gray-800 dark:bg-gray-950'>
+              <div className='space-y-2'>
+                <h3 className='text-2xl font-bold'>Free</h3>
+                <p className='text-gray-500 dark:text-gray-400'>A taste of expensing goodness!</p>
+               
+                
+              </div>
+              <div className='mt-4'>
+                <p className='text-4xl font-bold'>$4.99</p>
+                <p className='text-gray-500 dark:text-gray-400'>/month</p>
+              </div>
+              <ul className='mt-6 space-y-2 flex-1'>
+                <li className='flex items-center'>
+                  <Check className="text-green-500 mr-2 h-5 w-5" />
+                  <span> 50 Scans per month</span>
+                </li>
+                <li className='flex items-center'>
+                  <Check className="text-green-500 mr-2 h-5 w-5" />
+                  <span> Enhanced data extraction</span>
+                </li>
+                <li className='flex items-center'>
+                  <Check className="text-green-500 mr-2 h-5 w-5" />
+                  <span> 30-day history!!!!</span>
+                </li>
+                <li className='flex items-center'>
+                  <Check className="text-green-500 mr-2 h-5 w-5" />
+                  <span> Basic export option</span>
+                </li>
+              </ul>
+              <div className='mt-6'>
+                <Link href="/manage-plan">
+                  <Button className='w-full' variant="outline">Choose Plan</Button>
+                </Link>
+              </div>
+            </div>
+
+              <div className='flex flex-col shadow-sm p-6 border border-gray-200 rounded-lg bg-blue-50 dark:border-blue-900 dark:bg-blue-900/20 relative'>
+              <div className='absolute -top-3 right-4 bg-blue-600 text-white text-sm font-medium px-3 py-1 rounded-full'>Popular</div>
+                <div className='space-y-2'>
+                  <h3 className='text-2xl font-bold'>Pro</h3>
+                  <p className='text-gray-500 dark:text-gray-400'>For professionals and businesses</p>
+                
+                  
+                </div>
+                <div className='mt-4'>
+                  <p className='text-4xl font-bold'>$9.99</p>
+                  <p className='text-gray-500 dark:text-gray-400'>/month</p>
+                </div>
+                <ul className='mt-6 space-y-2 flex-1'>
+                  <li className='flex items-center'>
+                    <Check className="text-green-500 mr-2 h-5 w-5" />
+                    <span> 300 Scans per month</span>
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className="text-green-500 mr-2 h-5 w-5" />
+                    <span> Advanced AI data extraction</span>
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className="text-green-500 mr-2 h-5 w-5" />
+                    <span> AI Summaries</span>
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className="text-green-500 mr-2 h-5 w-5" />
+                    <span> Advanced export options</span>
+                  </li>
+                  <li className='flex items-center'>
+                    <Check className="text-green-500 mr-2 h-5 w-5" />
+                    <span> Unlimited History</span>
+                  </li>
+                </ul>
+                <div className='mt-6'>
+                  <Link href="/manage-plan">
+                    <Button className='w-full bg-blue-600 hover:bg-blue-700' variant="outline">Choose Plan</Button>
+                  </Link>
+                </div>
+                </div>
           </div>
         </div>
       </section>
