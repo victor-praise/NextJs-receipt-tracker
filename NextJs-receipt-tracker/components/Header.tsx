@@ -14,7 +14,7 @@ function Header() {
         <Link href="/" className='flex items-center'>
       <Shield className='w-6 h-6 text-blue-600 mr-2'/>
 
-      <h1 className='text-xl font-semibold'>Epensio</h1>
+      <h1 className='text-xl font-semibold'>Securio</h1>
     </Link>
 
     <div className='flex items-center space-x-4'>

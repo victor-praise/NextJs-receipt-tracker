@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from '@/components/ui/button'
-import { ArrowRight, BarChart, Check, Search, Upload } from "lucide-react";
+import { ArrowRight, BarChart, Check, Search, Shield, Upload } from "lucide-react";
 import Link from "next/link";
 
 
@@ -23,7 +23,7 @@ export default function Home() {
             </Button>
             </Link>
             <Link href="#features">
-            <Button variant="outline">Learn More!!!!!</Button></Link>
+            <Button variant="outline">Learn More!</Button></Link>
           </div>
         </div>
       </div>
@@ -194,6 +194,30 @@ export default function Home() {
                 </div>
           </div>
         </div>
+      </section>
+
+      <section className='py-16 md:py-24'>
+        <div className='container mx-auto px-4 md:px-6'>
+          <div className='text-center space-y-4 max-w-3xl mx-auto'>
+            <div className='space-y-2'>
+              <h2 className='text-3xl font-bold tracking-tighter md:text-4xl'>Ready to simplify your expense tracking?</h2>
+              <p className='text-gray-500 md:text-xl dark:text-gray-400'>Sign up today and take control of your receipts and expenses with ease</p>
+            </div>
+          </div>
+        </div>
+        </section>
+
+    <section className='border-t border-gray-200 dark:border-gray-800'>
+      <div className='container mx-auto px-4 md:px-6 py-8 text-center'>
+        <div className='flex flex-col md:flex-row justify-between items-center'>
+          <div className='flex items-center space-x-1'>
+            <Shield className="h-6 w-6 text-blue-600" />
+            <span className='text-xl font-semibold'>Securio</span>
+          </div>
+          <div className='text-sm text-gray-500 dark:text-gray-400'>&copy; {new Date().getFullYear()} Securio. Safe and Secured.
+            </div>
+        </div>
+      </div>
       </section>
      </div>
     </>
