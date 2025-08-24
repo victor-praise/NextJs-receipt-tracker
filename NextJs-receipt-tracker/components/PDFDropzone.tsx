@@ -1,5 +1,6 @@
 'use client'
 
+import { useUser } from "@clerk/clerk-react";
 import {
     DndContext,
     useSensor,
@@ -7,11 +8,50 @@ import {
     PointerSensor,
 
 } from "@dnd-kit/core";
+import { useSchematicEntitlement } from "@schematichq/schematic-react";
+
+import { useRouter } from "next/navigation";
+import React from "react";
+import { useCallback } from "react";
 
 function PDFDropzone() {
+    const [isDraggingOver, setIsDraggingOver] = React.useState(false);
+    const [isUploading, setIsUploading] = React.useState(false);
+    const [upLoadedFiles, setUploadedFiles] = React.useState<string[]>([]);
+    const user = useUser();
+    const router = useRouter();
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
+    
+    const {value:isFeatureEnabled,
+        featureUsageExceeded,
+        featureAllocation,
+    } = useSchematicEntitlement("scan-receipt");
     const sensors = useSensors(
         useSensor(PointerSensor),
     );
+
+    const handleDragOver = useCallback((event: React.DragEvent) => {
+        event.preventDefault();
+        setIsDraggingOver(true);
+    }, []);
+
+    const handleDragLeave = useCallback((event: React.DragEvent) => {
+        event.preventDefault();
+        setIsDraggingOver(false);
+    }, []);
+   
+    const handleDrop = useCallback((event: React.DragEvent) => {
+        event.preventDefault();
+        setIsDraggingOver(false);
+
+        const files = event.dataTransfer?.files;
+        if (files && files.length > 0) {
+            // Handle the dropped files here
+            console.log("Dropped files:", files);
+        }
+    }, []);
+    const canUpload = true;
+    // const canUpload = isUserSignedIn && isFeatureEnabled;
   return (
     <DndContext
         sensors={sensors}>
