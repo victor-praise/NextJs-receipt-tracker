@@ -25,10 +25,20 @@ function PDFDropzone() {
     const {value:isFeatureEnabled,
         featureUsageExceeded,
         featureAllocation,
-    } = useSchematicEntitlement("scan-receipt");
+        featureUsage,
+    } = useSchematicEntitlement("scans");
     const sensors = useSensors(
         useSensor(PointerSensor),
     );
+
+   
+     const handleUpload = useCallback(async (files: FileList | File[]) => {
+        if(!user){
+            alert("Please sign in to upload files.");
+            return;
+        }
+        
+     },[user,router]);
 
     const handleDragOver = useCallback((event: React.DragEvent) => {
         event.preventDefault();
@@ -44,12 +54,19 @@ function PDFDropzone() {
         event.preventDefault();
         setIsDraggingOver(false);
 
+        if(!user){
+            alert("Please sign in to upload files.");
+            return;
+        }
         const files = event.dataTransfer?.files;
         if (files && files.length > 0) {
             // Handle the dropped files here
             console.log("Dropped files:", files);
+            handleUpload(event.dataTransfer.files);
         }
-    }, []);
+    }, [user, handleUpload]);
+
+   
     const canUpload = true;
     // const canUpload = isUserSignedIn && isFeatureEnabled;
   return (
