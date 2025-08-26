@@ -37,8 +37,38 @@ function PDFDropzone() {
             alert("Please sign in to upload files.");
             return;
         }
+
+        const fileArray = Array.from(files);
+        const pdfFiles = fileArray.filter(file => file.type === "application/pdf" || file.name.endsWith(".pdf"));
+        if (pdfFiles.length === 0) {
+            alert("Please upload PDF files only.");
+            return;
+        }
+        setIsUploading(true);
+        try {
+            const newUploadedFiles: string[] = [];
+            for(const file of pdfFiles){
+                const formData = new FormData();
+                formData.append("file", file);
+
+                const result = await uploadPdf(formData);
+
+                if(!result.success){
+                   throw new Error(result.message || "Upload failed");
+                }
+              newUploadedFiles.push(file.name);
+            }
+            setUploadedFiles((prev) => [...prev, ...newUploadedFiles]);
+            alert("Files uploaded successfully");
+        }
+        catch (error) {
+            console.error("Error uploading files:", error);
+            alert("Error uploading files. Please try again.");} finally {
+                setIsUploading(false);
+            }
         
      },[user,router]);
+
 
     const handleDragOver = useCallback((event: React.DragEvent) => {
         event.preventDefault();
