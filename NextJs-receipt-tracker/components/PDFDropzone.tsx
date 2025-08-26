@@ -60,6 +60,12 @@ function PDFDropzone() {
             }
             setUploadedFiles((prev) => [...prev, ...newUploadedFiles]);
             alert("Files uploaded successfully");
+
+            setTimeout(() => {
+                setUploadedFiles([]);
+            }, 5000);
+
+            router.push("/receipts");
         }
         catch (error) {
             console.error("Error uploading files:", error);
@@ -70,6 +76,7 @@ function PDFDropzone() {
      },[user,router]);
 
 
+     
     const handleDragOver = useCallback((event: React.DragEvent) => {
         event.preventDefault();
         setIsDraggingOver(true);
