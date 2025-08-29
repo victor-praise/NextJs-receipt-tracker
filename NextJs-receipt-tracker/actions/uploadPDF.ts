@@ -3,6 +3,7 @@
 import { api } from "@/convex/_generated/api";
 import convex from "@/lib/convexClient";
 import {currentUser} from "@clerk/nextjs/server";
+import { getFileDownloadUrl } from "./getFileDownloadUrl";
 
 export async function uploadPdf(formData: FormData) {
     const user = await currentUser();
@@ -33,6 +34,22 @@ export async function uploadPdf(formData: FormData) {
             },
             body: new Uint8Array(arrayBuffer),
         });
+
+        if(!uploadResponse.ok){
+            return {success:false, message:"Failed to upload file to storage"};
+        }
+        const {storageId} = await uploadResponse.json();
+
+        const receiptId = await convex.mutation(api.receipts.storeReceipt,{
+            userId:user.id,
+            fileId:storageId,
+            fileName:file.name,
+            size:file.size,
+            mimeType:file.type,
+        });
+
+
+        const fileUrl = await getFileDownloadUrl(storageId);
     } catch (error) {
         console.error("Error uploading PDF:", error);
         return {success:false, message:"Error uploading PDF"};
