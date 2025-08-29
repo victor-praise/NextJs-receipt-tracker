@@ -50,6 +50,12 @@ export async function uploadPdf(formData: FormData) {
 
 
         const fileUrl = await getFileDownloadUrl(storageId);
+
+
+        return {success:true, data:{
+            receiptId,
+            fileName:file.name,
+        }};
     } catch (error) {
         console.error("Error uploading PDF:", error);
         return {success:false, message:"Error uploading PDF"};

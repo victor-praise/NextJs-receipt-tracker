@@ -10,6 +10,7 @@ import {
 
 } from "@dnd-kit/core";
 import { useSchematicEntitlement } from "@schematichq/schematic-react";
+import { AlertCircle, CheckCircle } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -48,6 +49,8 @@ function PDFDropzone() {
         setIsUploading(true);
         try {
             const newUploadedFiles: string[] = [];
+            
+            
             for(const file of pdfFiles){
                 const formData = new FormData();
                 formData.append("file", file);
@@ -105,8 +108,8 @@ function PDFDropzone() {
     }, [user, handleUpload]);
 
    
-    const canUpload = true;
-    // const canUpload = isUserSignedIn && isFeatureEnabled;
+   const isUserSignedIn = !!user;
+    const canUpload = isUserSignedIn && isFeatureEnabled;
   return (
     <DndContext
         sensors={sensors}>
@@ -115,7 +118,28 @@ function PDFDropzone() {
             onDragLeave={canUpload? handleDragLeave:undefined}
             onDrop={canUpload? handleDrop:(e)=>e.preventDefault()}
             className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${isDraggingOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300 '} ${!canUpload ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'}`}>
+                
         </div>    
+        <div className="mt-4">
+            {featureUsageExceeded && ( <div className="flex items-center p-3 bg-res-50 border border-red-200 rounded-md text-red-600">
+                <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0"/>
+                <span>You have exceeded your upload limit of {featureAllocation} PDFs. Please upgrade your plan.</span>
+            </div>)}
+        </div>
+
+        {upLoadedFiles.length > 0 && (
+            <div className="mt-4">
+                <h3 className="font-medium">Uploaded Files:</h3>
+                <ul className="mt-2 text-sm text-gray-600 space-y-1">
+                    {upLoadedFiles.map((fileName, index) => (
+                        <li key={index} className="text-green-500">
+                            <CheckCircle className="h-5 w-5 text-green-500 mr-2"/>
+                            {fileName}</li>
+                    ))}
+                </ul>
+            </div>
+        )}
+
         </div>
         
         </DndContext>
