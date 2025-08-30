@@ -9,8 +9,9 @@ import {
     PointerSensor,
 
 } from "@dnd-kit/core";
+import { Button } from "@schematichq/schematic-components";
 import { useSchematicEntitlement } from "@schematichq/schematic-react";
-import { AlertCircle, CheckCircle } from "lucide-react";
+import { AlertCircle, CheckCircle, Cloud, CloudUpload } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -107,7 +108,12 @@ function PDFDropzone() {
         }
     }, [user, handleUpload]);
 
-   
+    const handleFileInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.files?.length){
+            handleUpload(event.target.files);
+        }
+    }, [handleUpload]);
+   const triggerFileInput = useCallback(() => {fileInputRef.current?.click();},[])
    const isUserSignedIn = !!user;
     const canUpload = isUserSignedIn && isFeatureEnabled;
   return (
@@ -118,7 +124,22 @@ function PDFDropzone() {
             onDragLeave={canUpload? handleDragLeave:undefined}
             onDrop={canUpload? handleDrop:(e)=>e.preventDefault()}
             className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${isDraggingOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300 '} ${!canUpload ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'}`}>
-                
+                {isUploading ? (<div className="flex flex-col items-center">
+                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-500 mb-2 "></div>
+                    <p>Uploading...</p>
+                </div>): !isUserSignedIn ? (<><CloudUpload className="mx-auto h-12 w-12 text-gray-400"/>
+                        <p className="mt-2 text-gray-600">Please sign in to upload PDFs.</p></>) : (<>
+                        <Cloud className="mx-auto h-12 w-12 text-gray-400"/>
+                        <p className="mt-2 text-sm text-gray-600">Drag and Drop files here, or click to select files</p>
+                        <input type="file" multiple accept="application/pdf,.pdf" ref={fileInputRef} className="hidden"
+                            onChange={handleFileInputChange}
+                            
+                            />
+                            <Button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" disabled={!isFeatureEnabled}
+                            onClick={triggerFileInput}>
+                                {isFeatureEnabled ? "Select Files" : "Upgrade to Upload"}
+                            </Button>
+                </>)}
         </div>    
         <div className="mt-4">
             {featureUsageExceeded && ( <div className="flex items-center p-3 bg-res-50 border border-red-200 rounded-md text-red-600">
