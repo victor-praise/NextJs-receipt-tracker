@@ -9,7 +9,7 @@ import {
     PointerSensor,
 
 } from "@dnd-kit/core";
-import { Button } from "@schematichq/schematic-components";
+import { Button } from '@/components/ui/button'
 import { useSchematicEntitlement } from "@schematichq/schematic-react";
 import { AlertCircle, CheckCircle, Cloud, CloudUpload } from "lucide-react";
 
@@ -28,7 +28,6 @@ function PDFDropzone() {
     const {value:isFeatureEnabled,
         featureUsageExceeded,
         featureAllocation,
-        featureUsage,
     } = useSchematicEntitlement("scans");
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -135,7 +134,7 @@ function PDFDropzone() {
                             onChange={handleFileInputChange}
                             
                             />
-                            <Button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" disabled={!isFeatureEnabled}
+                            <Button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed" disabled={!isFeatureEnabled}
                             onClick={triggerFileInput}>
                                 {isFeatureEnabled ? "Select Files" : "Upgrade to Upload"}
                             </Button>
