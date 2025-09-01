@@ -3,8 +3,22 @@ import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import React from 'react'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Doc } from '@/convex/_generated/dataModel';
+import { FileText } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 function ReceiptList() {
+    
+const router = useRouter();
     const {user} = useUser();
     const receipts = useQuery(api.receipts.getReceipt,{ userId:user?.id || ""});
 
@@ -29,7 +43,43 @@ function ReceiptList() {
         </div>
     }
   return (
-    <div>ReceiptList</div>
+    <div className="w-full">
+        <h2 className='text-2xl font-semibold mb-4'>Your Receipts</h2>
+        <div className='bg-white border border-gray-200 rounded-lg overflow-hidden'>
+            <Table>
+                <TableHeader>
+                    <TableHead className="w-[40px]"></TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Size</TableHead>
+                    <TableHead>Uploaded At</TableHead>
+                    <TableHead>Total</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="w-[40px]"></TableHead>
+                </TableHeader>
+
+                <TableBody>
+                    {receipts && receipts.map((receipt: Doc<"receipts">)=>(
+                        <TableRow key={receipt._id} className='cursoe-pointer hover:bg-gray-50'
+                        
+                        onClick={()=>{
+                           router.push( `/receipts/${receipt._id}`);
+                        }}>
+                            <TableCell className='py-2'>
+                                <FileText className="h-6 w-6 text-red-500"/>
+                            </TableCell>
+                            <TableCell className="font-medium">{receipt.fileDisplayName || receipt.fileName}</TableCell>
+                            <TableCell>{(receipt.size / 1024).toFixed(2)} KB</TableCell>
+                            <TableCell>{new Date(receipt.uploadedAt).toLocaleDateString()}</TableCell>
+                            <TableCell>
+                                {receipt.transactionAmount ? `${receipt.transactionAmount} ${receipt.currency || ""}` : "-"}</TableCell>
+                            <TableCell>{receipt.status}</TableCell>
+                            <TableCell></TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
+    </div>
   )
 }
 
