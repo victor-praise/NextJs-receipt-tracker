@@ -24,7 +24,7 @@ export default function Home() {
             </Button>
             </Link>
             <Link href="#features">
-            <Button variant="outline">Learn More!!!</Button></Link>
+            <Button variant="outline">Learn More!</Button></Link>
           </div>
         </div>
       </div>
