@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Doc } from '@/convex/_generated/dataModel';
-import { FileText } from 'lucide-react';
+import { ChevronRight, FileText } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 function ReceiptList() {
@@ -44,14 +44,14 @@ const router = useRouter();
     }
   return (
     <div className="w-full">
-        <h2 className='text-2xl font-semibold mb-4'>Your Receipts</h2>
+        <h2 className='text-xl font-semibold mb-4'>Your Receipts</h2>
         <div className='bg-white border border-gray-200 rounded-lg overflow-hidden'>
             <Table>
                 <TableHeader>
                     <TableHead className="w-[40px]"></TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Size</TableHead>
-                    <TableHead>Uploaded At</TableHead>
+                    <TableHead>Uploaded</TableHead>
                     <TableHead>Total</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="w-[40px]"></TableHead>
@@ -59,10 +59,10 @@ const router = useRouter();
 
                 <TableBody>
                     {receipts && receipts.map((receipt: Doc<"receipts">)=>(
-                        <TableRow key={receipt._id} className='cursoe-pointer hover:bg-gray-50'
+                        <TableRow key={receipt._id} className='cursor-pointer hover:bg-gray-50'
                         
                         onClick={()=>{
-                           router.push( `/receipts/${receipt._id}`);
+                           router.push( `/receipt/${receipt._id}`);
                         }}>
                             <TableCell className='py-2'>
                                 <FileText className="h-6 w-6 text-red-500"/>
@@ -72,8 +72,12 @@ const router = useRouter();
                             <TableCell>{new Date(receipt.uploadedAt).toLocaleDateString()}</TableCell>
                             <TableCell>
                                 {receipt.transactionAmount ? `${receipt.transactionAmount} ${receipt.currency || ""}` : "-"}</TableCell>
-                            <TableCell>{receipt.status}</TableCell>
-                            <TableCell></TableCell>
+                            <TableCell><span className={`px-2 text-xs py-2 rounded-full ${receipt.status === "pending" ? "bg-yellow-100 text-yellow-800" : receipt.status === "processed" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                                {receipt.status.charAt(0).toUpperCase() + receipt.status.slice(1)}
+                                </span></TableCell>
+                            <TableCell className='text-right'>
+                                <ChevronRight className="h-5 w-5 text-gray-400 ml-auto"/>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
