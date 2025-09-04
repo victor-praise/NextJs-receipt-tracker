@@ -1,6 +1,55 @@
-import { createAgent } from "@inngest/agent-kit";
+import {  createAgent, createTool,openai } from "@inngest/agent-kit";
+import { anthropic, } from "inngest";
+import { z } from "zod";
 
-
+export const parsePdfTool = createTool({
+    name:"parse-pdf",
+    description:"Analyses the given PDF",
+    parameters: z.object({
+        pdfUrl:z.string()
+    }), 
+    handler:async({pdfUrl},{step})=>{
+        try {
+               return await step?.ai.infer("parse-pdf",{
+            model:anthropic({model:"claude-3-5-sonnet-20241022",defaultParameters:{max_tokens:3094}}),
+            body:{
+                messages:[{
+                    role:"user",
+                    content:[{
+                        type:"document",
+                        source:{
+                            type:"url",
+                            url:pdfUrl,
+                        }
+                        
+                    },
+                {type:"text",
+                text:`Extract the data from the receipt and return the structured output as follows:
+                {
+                "merchant":{
+                    "name":"Store Name",
+                    "address":"123 Main st, City, Country",
+                    "contact":"+123456789"},
+                "transaction":{
+                    "date":"YYYY-MM-DD",
+                    "receipt_number":"ABC123456",
+                    "payment_method":"Credit Card"},
+                "items":[
+                    {"name":"Item 1","quantity":1,"unit_price":"10.00","total_price":"10.00"},
+                    ],
+                "totals":{"subtotal":"10.00","tax":"0.80","total":"10.80","currency":"USD"}
+                }`
+                }]
+                }],
+            }
+        });
+        } catch (error) {
+            console.error("Error parsing PDF:", error);
+            return {error:"Error parsing PDF"};
+        }
+     
+    },
+});
 export const receiptScanningAgent = createAgent({
     name:"Receipt Scanning Agent",
     description:"Processes receipt images and PDFs to extract key information such as vendor names, dates, amounts, and line items",
@@ -13,5 +62,7 @@ export const receiptScanningAgent = createAgent({
     . Normalize dates, currency values, and formatting for consistency.
     . If any key details are missing or unclear, return a structured response indicating incomplete data.
     . Handle multiple formats, languages, and varying receipt layouts efficiently.
-    . Maintain a structured JSON output for easy integration with databases or expense tracking systems.`
+    . Maintain a structured JSON output for easy integration with databases or expense tracking systems.`,
+    model:openai({model:"gpt-4o-mini",defaultParameters:{max_completion_tokens:3094,}}),
+    tools:[parsePdfTool],
 });
