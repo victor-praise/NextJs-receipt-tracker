@@ -1,3 +1,7 @@
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import convex from "@/lib/convexClient";
+import { client } from "@/lib/schematic";
 import { createAgent,createTool,openai } from "@inngest/agent-kit";
 import { z, ZodObject } from "zod";
 
@@ -24,7 +28,45 @@ const saveToDatabaseTool = createTool({
             }).describe("An array of items on the receipt. Include the name, quantity, unit price, and total price of each item."),
         )
     }) as ZodObject<any>,
-    handler:async({input})=>{},
+    handler:async(params,context)=>{
+      const {fileDisplayName,receiptId,merchantName,merchantAddress,merchantContact,transactionDate,transactionAmount,receiptSummary,currency,items} = params;
+
+      const result = await context.step?.run("save-receipt-to-database",async ()=>{
+          try {
+            const {userId} = await convex.mutation(api.receipts.updateReceiptWithExtractedData,{
+              id:receiptId as Id<"receipts">,
+           
+              fileDisplayName,
+              merchantName,
+              merchantAddress,
+              merchantContact,
+              transactionDate,
+              transactionAmount,
+              receiptSummary,
+              currency,
+              items
+            },);
+
+            //Track event in schematic
+            await client.track({
+              event:"scan",
+              company:{id:userId},
+              user:{id:userId},
+            })
+
+            return {addedToDb:"success",receiptId,fileDisplayName,merchantName,merchantAddress,merchantContact,transactionDate,transactionAmount,receiptSummary,currency,items};
+          } catch (error) {
+            return {addedToDb:"Failed",error:error instanceof Error?error.message:"Unknown error"};
+            
+          }
+      });
+      if(result?.addedToDb==="success"){
+
+        context.network?.state.kv.set("saved-to-database","true");
+        context.network?.state.kv.set("receipt-id",receiptId);
+      }
+      return result
+    },
     
 })
 

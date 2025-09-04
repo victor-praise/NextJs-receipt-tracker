@@ -20,7 +20,7 @@ export default defineSchema({
     merchantName:v.optional(v.string()),
     merchantAddress:v.optional(v.string()),
     merchantContact:v.optional(v.string()),
-    transationDate:v.optional(v.string()),
+    transactionDate:v.optional(v.string()),
     transactionAmount:v.optional(v.number()),
     currency:v.optional(v.string()),
     receiptSummary:v.optional(v.string()),

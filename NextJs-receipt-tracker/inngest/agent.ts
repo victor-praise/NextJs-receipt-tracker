@@ -1,7 +1,9 @@
-import { createAgent, anthropic, createNetwork,getDefaultRoutingAgent } from '@inngest/agent-kit';
-import { dataexports } from '@schematichq/schematic-typescript-node/api';
+import { createAgent, anthropic, createNetwork,getDefaultRoutingAgent, } from '@inngest/agent-kit';
+import { createServer } from '@inngest/agent-kit/server';
+
 import { inngest } from './client';
 import Events from './agents/constants';
+import { databaseAgent } from './agents/databaseAgents';
 
 
 const agentNetwork = createNetwork({
