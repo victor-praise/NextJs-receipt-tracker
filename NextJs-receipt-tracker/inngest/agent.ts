@@ -4,6 +4,7 @@ import { createServer } from '@inngest/agent-kit/server';
 import { inngest } from './client';
 import Events from './agents/constants';
 import { databaseAgent } from './agents/databaseAgents';
+import { receiptScanningAgent } from './agents/receiptScanningAgents';
 
 
 const agentNetwork = createNetwork({
@@ -23,7 +24,7 @@ const agentNetwork = createNetwork({
 
 export const server = createServer({
     agents:[databaseAgent,receiptScanningAgent],
-    network:[agentNetwork],
+    networks:[agentNetwork],
 })
 
 export const extractAndSavePDF = inngest.createFunction(
