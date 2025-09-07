@@ -23,11 +23,11 @@ const saveToDatabaseTool = createTool({
             z.object({
                 name:z.string(),
                 quantity:z.number(),
-                price:z.string(),
-                total:z.string(),
+                unitPrice:z.number(),
+                totalPrice:z.number(),
             }).describe("An array of items on the receipt. Include the name, quantity, unit price, and total price of each item."),
         )
-    }) as ZodObject<any>,
+    }),
     handler:async(params,context)=>{
       const {fileDisplayName,receiptId,merchantName,merchantAddress,merchantContact,transactionDate,transactionAmount,receiptSummary,currency,items} = params;
 
@@ -64,6 +64,9 @@ const saveToDatabaseTool = createTool({
 
         context.network?.state.kv.set("saved-to-database",true);
         context.network?.state.kv.set("receipt",receiptId);
+      }
+      if(result?.addedToDb!=="success"){
+        console.log("it did not work")
       }
       return result
     },
