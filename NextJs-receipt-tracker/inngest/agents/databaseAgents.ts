@@ -62,8 +62,8 @@ const saveToDatabaseTool = createTool({
       });
       if(result?.addedToDb==="success"){
 
-        context.network?.state.kv.set("saved-to-database","true");
-        context.network?.state.kv.set("receipt-id",receiptId);
+        context.network?.state.kv.set("saved-to-database",true);
+        context.network?.state.kv.set("receipt",receiptId);
       }
       return result
     },

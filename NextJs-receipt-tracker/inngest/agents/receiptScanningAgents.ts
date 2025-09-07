@@ -1,5 +1,5 @@
-import {  createAgent, createTool, } from "@inngest/agent-kit";
-import { anthropic, openai} from "inngest";
+import {  createAgent, createTool,anthropic, openai } from "@inngest/agent-kit";
+// import { } from "inngest";
 import { z } from "zod";
 
 export const parsePdfTool = createTool({
@@ -11,7 +11,7 @@ export const parsePdfTool = createTool({
     handler:async({pdfUrl},{step})=>{
         try {
                return await step?.ai.infer("parse-pdf",{
-            model:anthropic({model:"claude-3-5-sonnet-20241022",defaultParameters:{max_tokens:3094}}),
+            model:anthropic({model:"claude-3-5-haiku-20241022",defaultParameters:{max_tokens:3094}}),
             body:{
                 messages:[{
                     role:"user",
