@@ -10,7 +10,7 @@ import { receiptScanningAgent } from './agents/receiptScanningAgents';
 const agentNetwork = createNetwork({
     name:"Agent Team",
     agents:[databaseAgent,receiptScanningAgent],
-    defaultModel:anthropic({model:"clause-3-5-sonnet-latest",
+    defaultModel:anthropic({model:"claude-3-5-sonnet-latest",
         defaultParameters:{max_tokens:1000,},
     }),
     defaultRouter:({network})=>{
