@@ -9,9 +9,9 @@ import React, { useEffect, useState } from 'react'
 function Receipt() {
     const params = useParams<{id:string}>();
   const router = useRouter();
-    const {receiptId, setReceiptId} = useState<Id<"receipts"> | null>(null);
+    const [receiptId, setReceiptId] = useState<Id<"receipts"> | null>(null);
 
-    const receipt = useQuery(api.receipts.getReceiptById, receiptId ? {id:receiptId}: "skip");
+    const receipt = useQuery(api.receipts.getReceiptById, receiptId ? { receiptId }: "skip");
 
     useEffect(()=>{
       try {
