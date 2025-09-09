@@ -54,10 +54,10 @@ export const getReceipt = query({
 
 export const getReceiptById = query({  
     args:{
-        receiptId:v.id("receipts"),
+        id:v.id("receipts"),
     },
     handler:async(ctx,args)=>{
-        const receipts = await ctx.db.get(args.receiptId);
+        const receipts = await ctx.db.get(args.id);
 
         if(receipts){
             const identity = await ctx.auth.getUserIdentity();
