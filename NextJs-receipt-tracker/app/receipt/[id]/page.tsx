@@ -2,7 +2,7 @@
 import { api } from '@/convex/_generated/api';
 import { Doc, Id } from '@/convex/_generated/dataModel';
 import { useQuery } from 'convex/react';
-import { ChevronLeft, FileText } from 'lucide-react';
+import { ChevronLeft, FileText, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -118,7 +118,69 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
                 { hasExtractedData && (
                   <div className='mt-8'>
                     <h3 className="text-lg font-semibold mb-4">Receipt Details</h3>
-                    
+
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-medium text-gray-700 mb-3">Merchant Information</h4>
+                        <div className="space-y-2">
+                          {receipt.merchantName && (
+                            <div>
+                              <p className="text-sm text-gray-500">Name</p>
+                              <p className="font-medium">{receipt.merchantName}</p>
+                            </div>
+                          )}
+                          {receipt.merchantAddress && (
+                            <div>
+                              <p className="text-sm text-gray-500">Address</p>
+                              <p className="font-medium">{receipt.merchantAddress}</p>
+                            </div>
+                          )}
+                          {receipt.merchantContact && (
+                            <div>
+                              <p className="text-sm text-gray-500">Contact</p>
+                              <p className="font-medium">{receipt.merchantContact}</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-medium text-gray-700 mb-3">Transaction Details</h4>
+                        <div className="space-y-2">
+                          {receipt.transactionDate && (
+                            <div>
+                              <p className="text-sm text-gray-500">Date</p>
+                              <p className="font-medium">{new Date(receipt.transactionDate).toLocaleDateString()}</p>
+                            </div>
+                          )}
+                          {receipt.transactionAmount && (
+                            <div>
+                              <p className="text-sm text-gray-500">Amount</p>
+                              <p className="font-medium">{receipt.transactionAmount } {receipt.currency || ""}</p>
+                            </div>
+                          )}
+                        
+                        </div>
+                      </div>
+                    </div>
+
+                    {
+                      receipt.receiptSummary && (
+                        <>
+                        {
+                          isSummariesEnabled ? (<div className="mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border border-blue-100 shadow-sm">
+                          <h4 className="font-medium text-blue-700">AI-Generated Summary</h4>
+                          <div className="ml-2 flex">
+                            <Sparkles className='h-3.5 w-3.5 text-yellow-500'/>
+                            <Sparkles className='h-3 w-3 text-yellow-400 -ml-1'/>
+                          </div>
+                          </div>):(
+                            <div className = "mt-6 bg-gray-100 p-6 rounded-lg border border-gray-200 shadow-sm"></div>
+                          )
+                        }
+                        </>
+                      )
+                    }
                   </div>
                 )}
           </div>
