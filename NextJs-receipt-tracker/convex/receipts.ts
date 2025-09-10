@@ -57,19 +57,20 @@ export const getReceiptById = query({
         id:v.id("receipts"),
     },
     handler:async(ctx,args)=>{
-        const receipts = await ctx.db.get(args.id);
+        const receipt = await ctx.db.get(args.id);
 
-        if(receipts){
+        if(receipt){
             const identity = await ctx.auth.getUserIdentity();
             if(!identity){
                 throw new Error("Not authenticated");
             }
             const userId = identity.subject;
 
-            if(receipts.userId !== userId){
+            if(receipt.userId !== userId){
                 throw new Error("Not authorized to access this receipt");
             }
         }
+        return receipt;
     }
 })
 
