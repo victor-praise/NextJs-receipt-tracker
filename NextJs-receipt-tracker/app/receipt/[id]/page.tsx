@@ -2,6 +2,7 @@
 import { api } from '@/convex/_generated/api';
 import { Doc, Id } from '@/convex/_generated/dataModel';
 import { useQuery } from 'convex/react';
+import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -28,6 +29,14 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
       }
     },[params.id, router])
 
+    if(receipt===undefined){
+      return (<div className='container mx-auto py-10 px-4'>
+        <div className='flex flex-col items-center justify-center space-y-4'>
+          <div className='animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600'></div>
+         
+        </div>
+      </div>)
+    }
     if(receipt===null){
       return (<div className='container mx-auto py-10 px-4'>
         <div className='max-w-2l mx-auto text-center'>
@@ -43,7 +52,31 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
   const hasExtractedData = !!(receipt && (receipt.merchantName || receipt.merchantAddress || receipt.transactionDate || receipt.transactionAmount));
     
   return (
-    <div>Receipt</div>
+    <div className='container mx-auto py-10 px-4'>
+      <div className='max-w-4xl mx-auto'>
+        <nav className="mb-6">
+          <Link href={"/receipts"} className='text-blue-500 hover:underline flex items-center'>
+            <ChevronLeft className='h-4 w-4 mr-1' />
+          Back to Receipts</Link>
+        </nav>
+
+        <div className='bg-white shadow-md rounded-lg overflow-hidden mb-6'>
+          <div className="p-6">
+            <div className='flex items-center justify-between mb-6'>
+              <h1 className='text-2xl font-bold text-gray-900 truncate'>{receipt?.fileDisplayName || receipt?.fileName}</h1>
+              <div className="flex items-center">
+                {receipt.status === "pending" ? (
+                  <div className='mr-2'>
+                    <div className='animate-spin rounded-full h-4 w-4 border-b-2  border-yellow-800'></div>
+                  </div>
+                ) : null}
+                <span className={`px-3 py-1 rounded-full text-sm ${receipt.status==="pending" ? "bg-yellow-100 text-yellow-800" : receipt.status==="processed" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>{receipt.status.charAt(0).toUpperCase() + receipt.status.slice(1)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
