@@ -2,7 +2,7 @@
 import { api } from '@/convex/_generated/api';
 import { Doc, Id } from '@/convex/_generated/dataModel';
 import { useQuery } from 'convex/react';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, FileText } from 'lucide-react';
 import Link from 'next/link';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -74,6 +74,54 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
               </div>
             </div>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500">File Information</h3>
+                    <div className='mt-2 bg-gray-50 p-4 rounded-lg'>
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <p className="text-gray-500">Uploaded</p>
+                          <p className="font-medium">{uploadDate}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-500">Size</p>
+                          <p className="font-medium">{(receipt.size / 1024).toFixed(2)} KB</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-500">Type</p>
+                          <p className="font-medium">{receipt.mimeType}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-500">ID</p>
+                          <p className="font-medium truncate" title={receipt._id}>{receipt._id.slice(0,10)}...</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className='flex items-center justify-center p-8 bg-gray-50 rounded-lg'>
+                    <div className="text-center">
+                      <FileText className='h-16 w-16 text-blue-500 mx-auto' />
+                      <p className="mt-4 text-gray-500">PDF Preview</p>
+                      {downloadUrl && (
+                        <a href={downloadUrl} className="mt-4 px-4 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 inline-block" target="_blank" rel="noopener noreferrer">
+                          View PDF
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+
+                { hasExtractedData && (
+                  <div className='mt-8'>
+                    <h3 className="text-lg font-semibold mb-4">Receipt Details</h3>
+                    
+                  </div>
+                )}
+          </div>
         </div>
       </div>
     </div>
@@ -81,3 +129,7 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
 }
 
 export default Receipt
+
+function formatCurrency(amount: number, currency: string) {
+  return `${amount.toFixed(2)} ${currency ? `${currency}` : ''}`;
+}
