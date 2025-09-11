@@ -1,4 +1,5 @@
 'use client'
+import { Table, TableBody, TableCell, TableFooter, TableHeader, TableRow } from '@/components/ui/table';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { useSchematicFlag } from '@schematichq/schematic-react';
@@ -220,6 +221,43 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
                     }
                   </div>
                 )}
+
+                {receipt.items && receipt.items.length > 0 && (
+                  <div className="mt-6">
+                    <h4 className="font-medium text-gray-700 mb-3">Items ({receipt.items.length})</h4>
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableCell className="font-medium text-gray-700">Item</TableCell>
+                            <TableCell className="font-medium text-gray-700">Quantity</TableCell>
+                            <TableCell className="font-medium text-gray-700">Price</TableCell>
+                            <TableCell className="font-medium text-gray-700">Total</TableCell>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {receipt.items.map((item,index)=> (
+                            <TableRow key={index}>
+                              <TableCell className="text-gray-700">{item.name}</TableCell>
+                              <TableCell className="text-gray-700">{item.quantity}</TableCell>
+                              <TableCell className="text-gray-700">{formatCurrency(item.unitPrice, receipt.currency ?? "")}</TableCell>
+                              <TableCell className="text-gray-700">{formatCurrency(item.totalPrice, receipt.currency ?? "")}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                        <TableFooter>
+                          <TableRow>
+                            <TableCell colSpan={3} className="text-right">{formatCurrency(receipt.items.reduce((acc, item) => acc + item.totalPrice, 0), receipt.currency ?? "")}</TableCell>
+                          </TableRow>
+                        </TableFooter>
+                      </Table>
+                    </div>
+                  </div>
+                )}
+
+                <div>
+                  
+                </div>
           </div>
         </div>
       </div>

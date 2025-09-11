@@ -17,7 +17,7 @@ const client =  new SchematicClient({
     // Assuming you have a method to get the user ID
     const userId = user.id;
     const resp = await client.accesstokens.issueTemporaryAccessToken({
-    resourceType: "company",
+    resource_type: "company",
     lookup: { id:user.id},
   } as any);
     return resp.data?.token;
