@@ -1,4 +1,5 @@
 'use client'
+import { deleteReceipt } from '@/actions/deleteReceipt';
 import { getFileDownloadUrl } from '@/actions/getFileDownloadUrl';
 import { Table, TableBody, TableCell, TableFooter, TableHeader, TableRow } from '@/components/ui/table';
 import { api } from '@/convex/_generated/api';
@@ -51,13 +52,23 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
     }
   }
 
-  const handleDeleteReceipt = () =>{
+  const handleDeleteReceipt = async () =>{
     if(!receiptId) return;
     if(window.confirm("Are you sure you want to delete this receipt? This action cannot be undone.")){
-      setIsDeleting(true);
-    try {
       
+    try {
+      setIsDeleting(true);
+
+      const result = await deleteReceipt(receiptId);
+
+      if(!result.success){
+        throw new Error("Failed to delete receipt");
+      }
+      router.push("/");
     } catch (error) {
+      console.error("Error deleting receipt: ", error);
+      alert("Failed to delete receipt. Please try again.");
+      setIsDeleting(false);
       
     }
     
