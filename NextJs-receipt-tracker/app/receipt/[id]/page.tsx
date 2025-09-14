@@ -1,4 +1,5 @@
 'use client'
+import { getFileDownloadUrl } from '@/actions/getFileDownloadUrl';
 import { Table, TableBody, TableCell, TableFooter, TableHeader, TableRow } from '@/components/ui/table';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
@@ -14,6 +15,8 @@ function Receipt() {
     const params = useParams<{id:string}>();
   const router = useRouter();
   const [receiptId, setReceiptId] = useState<Id<"receipts"> | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false);
 
   const isSummariesEnabled = useSchematicFlag("summary");
 
@@ -22,6 +25,45 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
   const fileId = receipt?.fileId;
 
   const downloadUrl = useQuery(api.receipts.getReceiptsDownloadUrl, fileId ? {fileId}: "skip");
+
+  const handleDownload = async () => {
+    if(!receipt || !receipt.fileId) return;
+
+    try {
+      setIsLoadingDownload(true);
+      const result = await getFileDownloadUrl(receipt.fileId);
+      if(!result.success){throw new Error("Failed to get download URL");}
+
+      const link = document.createElement('a');
+      if(result.downloadUrl){
+        link.href = result.downloadUrl;
+        link.download = receipt.fileName || 'receipt.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }else{
+        throw new Error("Download URL is undefined");
+      }
+    } catch (error) {
+      console.error("Error downloading file: ", error);
+    } finally{
+      setIsLoadingDownload(false);
+    }
+  }
+
+  const handleDeleteReceipt = () =>{
+    if(!receiptId) return;
+    if(window.confirm("Are you sure you want to delete this receipt? This action cannot be undone.")){
+      setIsDeleting(true);
+    try {
+      
+    } catch (error) {
+      
+    }
+    
+    }
+
+  }
 
     useEffect(()=>{
       try {
@@ -255,8 +297,17 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
                   </div>
                 )}
 
-                <div>
-                  
+                <div className="mt-8 border-t pt-6">
+                  <h3 className="text-sm font-medium text-gray-500 mb-4">Actions</h3>
+                  <div className="flex flex-wrap gap-3">
+                    <button className={`px-4 py-2 bg-white border-gray-300 text-sm text-gray-700 ${ isLoadingDownload ? "opacity-50 cursor-not-allowed": "hover:bg-gray-50"}` } onClick={handleDownload} disabled={isLoadingDownload || !fileId}>
+                      {isLoadingDownload ? "Downloading..." : "Download PDF"}
+                    </button>
+                    <button className={`px-4 py-2 rounded text-sm ${isDeleting ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed": "bg-red-50 border border-red-200 text-red-600 hover:bg-red-100"}`}
+                      onClick={handleDeleteReceipt} disabled={isDeleting}>
+                      {isDeleting ? "Deleting..." : "Delete Receipt"}
+                    </button>
+                  </div>
                 </div>
           </div>
         </div>
