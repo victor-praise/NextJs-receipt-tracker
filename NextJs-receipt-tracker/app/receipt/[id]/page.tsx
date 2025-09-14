@@ -64,7 +64,7 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
       if(!result.success){
         throw new Error("Failed to delete receipt");
       }
-      router.push("/");
+      router.push("/receipts");
     } catch (error) {
       console.error("Error deleting receipt: ", error);
       alert("Failed to delete receipt. Please try again.");
@@ -134,7 +134,7 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <div>
+                  <div className='p-4'>
                     <h3 className="text-sm font-medium text-gray-500">File Information</h3>
                     <div className='mt-2 bg-gray-50 p-4 rounded-lg'>
                       <div className="grid grid-cols-2 gap-4 text-sm">
@@ -308,10 +308,10 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
                   </div>
                 )}
 
-                <div className="mt-8 border-t pt-6">
+                <div className="mt-8 pt-6 max-w-md p-6">
                   <h3 className="text-sm font-medium text-gray-500 mb-4">Actions</h3>
                   <div className="flex flex-wrap gap-3">
-                    <button className={`px-4 py-2 bg-white border-gray-300 text-sm text-gray-700 ${ isLoadingDownload ? "opacity-50 cursor-not-allowed": "hover:bg-gray-50"}` } onClick={handleDownload} disabled={isLoadingDownload || !fileId}>
+                    <button className={`px-4 py-2 bg-white border-gray-300 rounded text-sm text-gray-700 ${ isLoadingDownload ? "opacity-50 cursor-not-allowed": "hover:bg-gray-50"}` } onClick={handleDownload} disabled={isLoadingDownload || !fileId}>
                       {isLoadingDownload ? "Downloading..." : "Download PDF"}
                     </button>
                     <button className={`px-4 py-2 rounded text-sm ${isDeleting ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed": "bg-red-50 border border-red-200 text-red-600 hover:bg-red-100"}`}
