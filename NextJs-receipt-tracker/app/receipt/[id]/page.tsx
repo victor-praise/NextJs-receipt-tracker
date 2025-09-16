@@ -276,7 +276,7 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
                 )}
 
                 {receipt.items && receipt.items.length > 0 && (
-                  <div className="mt-6">
+                  <div className="mt-6 p-6">
                     <h4 className="font-medium text-gray-700 mb-3">Items ({receipt.items.length})</h4>
                     <div className="overflow-x-auto">
                       <Table>
@@ -311,10 +311,10 @@ const receipt = useQuery( api.receipts.getReceiptById, receiptId ? { id: receipt
                 <div className="mt-8 pt-6 max-w-md p-6">
                   <h3 className="text-sm font-medium text-gray-500 mb-4">Actions</h3>
                   <div className="flex flex-wrap gap-3">
-                    <button className={`px-4 py-2 bg-white border-gray-300 rounded text-sm text-gray-700 ${ isLoadingDownload ? "opacity-50 cursor-not-allowed": "hover:bg-gray-50"}` } onClick={handleDownload} disabled={isLoadingDownload || !fileId}>
+                    <button className={`px-4 py-2 bg-white border-gray-300 rounded text-sm text-gray-700 ${ isLoadingDownload ? "opacity-50": "hover:bg-gray-50"}` } onClick={handleDownload} disabled={isLoadingDownload || !fileId}>
                       {isLoadingDownload ? "Downloading..." : "Download PDF"}
                     </button>
-                    <button className={`px-4 py-2 rounded text-sm ${isDeleting ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed": "bg-red-50 border border-red-200 text-red-600 hover:bg-red-100"}`}
+                    <button className={`px-4 py-2 rounded text-sm ${isDeleting ? "bg-gray-100 border-gray-200 text-gray-400": "bg-red-50 border border-red-200 text-red-600 hover:bg-red-100"}`}
                       onClick={handleDeleteReceipt} disabled={isDeleting}>
                       {isDeleting ? "Deleting..." : "Delete Receipt"}
                     </button>
