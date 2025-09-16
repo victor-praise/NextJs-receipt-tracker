@@ -9,6 +9,8 @@ import { usePathname } from 'next/navigation';
 function Header() {
     const pathname = usePathname();
     const isHomePage = pathname === '/';
+
+
   return (
     <div className={`flex items-center justify-between p-4 ${isHomePage ? "bg-blue-50" : "bg-white border-b border-blue-50"}`} >
         <Link href="/" className='flex items-center'>

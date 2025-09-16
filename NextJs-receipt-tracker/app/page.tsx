@@ -4,9 +4,16 @@ import PDFDropzone from '@/components/PDFDropzone';
 import { Button } from '@/components/ui/button'
 import { ArrowRight, BarChart, Check, Search, Shield, Upload } from "lucide-react";
 import Link from "next/link";
+import React, { useEffect } from 'react';
+
+
 
 
 export default function Home() {
+      useEffect(() => {
+       alert("Welcome!!!! Use sample card 4242 4242 4242 4242 with any future date and CVC 123 to test payments.");
+    }, []);
+
   return (
     <>
      <div>
